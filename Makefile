@@ -25,5 +25,11 @@ exec:
 logs:
 	docker compose logs $(filter-out $@,$(MAKECMDGOALS)) -f
 
+migrate:
+	docker compose exec api go run ./cmd/migrate/migrate.go $(filter-out $@,$(MAKECMDGOALS))
+
+seed:
+	docker compose exec api go run ./cmd/seed/seed.go $(filter-out $@,$(MAKECMDGOALS))
+
 %:
 	@:

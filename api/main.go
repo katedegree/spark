@@ -1,15 +1,40 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
-	"github.com/labstack/echo/v4"
+	"github.com/joho/godotenv"
+	"github.com/katedegree/spark/internal/custom"
+	"github.com/katedegree/spark/internal/middleware"
+	"github.com/katedegree/spark/internal/router"
 )
 
 func main() {
-	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, Echo!")
+	_ = godotenv.Load()
+
+	db, err := custom.NewGorm()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close() // 後処理
+	storage, err := custom.NewS3()
+	if err != nil {
+		log.Fatal(err)
+	}
+	ai, err := custom.NewAI()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	e := custom.NewEcho(db, storage, ai)
+	e.Use(middleware.CORS)
+	e.Use(middleware.Recover)
+
+	e.GET("/", func(cc *custom.Context) error {
+		return cc.JSON(http.StatusOK, "Hello Echo!")
 	})
-	e.Start(":8080")
+	router.Api(e.Group("api"))
+
+	e.Logger.Fatal(e.Start(":8080"))
 }
