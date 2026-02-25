@@ -6,22 +6,20 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"
-	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/aws/aws-sdk-go-v2/service/ses"
 	"github.com/katedegree/spark/internal/infrastructure/env"
 )
 
-// custom.S3
-type S3 struct {
-	*s3.Client
-	Bucket string
+type SES struct {
+	*ses.Client
 }
 
-func NewS3() (*S3, error) {
+func NewSES() (*SES, error) {
 	ctx := context.Background()
 	accessKey := env.AWSAccessKeyID()
 	secretKey := env.AWSSecretAccessKey()
 	if accessKey == "" || secretKey == "" {
-		return nil, errors.New("AWS credentials or region not set in environment variables")
+		return nil, errors.New("AWS credentials not set in environment variables")
 	}
 
 	cfg, err := config.LoadDefaultConfig(ctx,
@@ -36,8 +34,7 @@ func NewS3() (*S3, error) {
 		return nil, err
 	}
 
-	return &S3{
-		Client: s3.NewFromConfig(cfg),
-		Bucket: env.AWSBucket(),
+	return &SES{
+		Client: ses.NewFromConfig(cfg),
 	}, nil
 }

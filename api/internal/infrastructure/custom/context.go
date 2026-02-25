@@ -13,15 +13,26 @@ import (
 // custom.Context
 type Context struct {
 	echo.Context
-	AuthID  uint
-	DB      *Gorm
-	Storage *S3
-	AI      *AI
+	Deps
 }
 
 type validateRessponse struct {
 	Status      string            `json:"status"`
 	FieldErrors map[string]string `json:"fieldErrors"`
+}
+
+func newContext(c echo.Context, deps Deps) *Context {
+	if err := deps.ValidateDeps(); err != nil {
+		panic(err)
+	}
+	cc, ok := c.(*Context)
+	if !ok {
+		cc = &Context{
+			Context: c,
+			Deps:    deps,
+		}
+	}
+	return cc
 }
 
 func (cc *Context) BindValidate(i interface{}, rules map[string]map[string]string) {
