@@ -3,7 +3,7 @@ package custom
 import (
 	"fmt"
 
-	"github.com/katedegree/spark/internal/env"
+	"github.com/katedegree/spark/internal/infrastructure/env"
 	"github.com/sashabaranov/go-openai"
 )
 

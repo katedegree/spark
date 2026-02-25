@@ -5,9 +5,9 @@ import (
 	"net/http"
 
 	"github.com/joho/godotenv"
-	"github.com/katedegree/spark/internal/custom"
-	"github.com/katedegree/spark/internal/middleware"
-	"github.com/katedegree/spark/internal/router"
+	"github.com/katedegree/spark/internal/infrastructure/custom"
+	"github.com/katedegree/spark/internal/infrastructure/middleware"
+	"github.com/katedegree/spark/internal/infrastructure/router"
 )
 
 func main() {

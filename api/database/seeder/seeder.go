@@ -3,7 +3,7 @@ package seeder
 import (
 	"fmt"
 
-	"github.com/katedegree/spark/internal/custom"
+	"github.com/katedegree/spark/internal/infrastructure/custom"
 )
 
 func Seed(db *custom.Gorm, seederName string) error {

@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"github.com/katedegree/spark/internal/custom"
+	"github.com/katedegree/spark/internal/infrastructure/custom"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )

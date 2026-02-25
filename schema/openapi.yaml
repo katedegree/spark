@@ -1,0 +1,15 @@
+openapi: 3.0.4
+info:
+  title: Spark API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api
+paths:
+  /auth/login:
+    $ref: "./paths/auth/login.yaml"
+  /auth/register/send-otp:
+    $ref: "./paths/auth/register/send-otp.yaml"
+  /auth/register/verify-otp:
+    $ref: "./paths/auth/register/verify-otp.yaml"
+  /auth/refresh:
+    $ref: "./paths/auth/refresh.yaml"

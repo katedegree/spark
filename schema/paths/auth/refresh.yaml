@@ -1,0 +1,26 @@
+post:
+  summary: refresh
+  operationId: authRefresh
+  tags:
+    - auth
+  parameters:
+    - in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+        example: "Bearer xxxxxxxx.xxxxxxxx.xxxxxxxx"
+  responses:
+    "200":
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [accessToken, refreshToken]
+            properties:
+              accessToken:
+                type: string
+                example: "xxxxxxxx.xxxxxxxx.xxxxxxxx"
+              refreshToken:
+                type: string
+                example: "xxxxxxxx.xxxxxxxx.xxxxxxxx"

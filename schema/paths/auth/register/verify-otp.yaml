@@ -1,0 +1,31 @@
+post:
+  summary: register/verify-otp
+  operationId: authRegisterVerifyOtp
+  tags:
+    - auth
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required: [otp]
+          properties:
+            otp:
+              type: string
+              example: "012345"
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [accessToken, refreshToken]
+            properties:
+              accessToken:
+                type: string
+                example: "xxxxxxxx.xxxxxxxx.xxxxxxxx"
+              refreshToken:
+                type: string
+                example: "xxxxxxxx.xxxxxxxx.xxxxxxxx"

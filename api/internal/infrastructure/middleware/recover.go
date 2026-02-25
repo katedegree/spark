@@ -3,7 +3,7 @@ package middleware
 import (
 	"net/http"
 
-	"github.com/katedegree/spark/internal/custom"
+	"github.com/katedegree/spark/internal/infrastructure/custom"
 )
 
 func Recover(next custom.HandlerFunc) custom.HandlerFunc {

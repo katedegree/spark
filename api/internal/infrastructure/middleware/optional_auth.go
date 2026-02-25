@@ -3,8 +3,8 @@ package middleware
 import (
 	"strings"
 
-	"github.com/katedegree/spark/internal/custom"
-	"github.com/katedegree/spark/internal/model"
+	"github.com/katedegree/spark/internal/infrastructure/custom"
+	"github.com/katedegree/spark/internal/infrastructure/model"
 	"github.com/katedegree/spark/pkg/jwt"
 )
 

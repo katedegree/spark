@@ -7,8 +7,8 @@ import (
 	"os/exec"
 
 	"github.com/joho/godotenv"
-	"github.com/katedegree/spark/internal/custom"
-	"github.com/katedegree/spark/internal/env"
+	"github.com/katedegree/spark/internal/infrastructure/custom"
+	"github.com/katedegree/spark/internal/infrastructure/env"
 )
 
 //go:generate go build -o ../../migrate .

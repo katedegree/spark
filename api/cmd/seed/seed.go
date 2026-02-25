@@ -10,7 +10,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/katedegree/spark/database/seeder"
-	"github.com/katedegree/spark/internal/custom"
+	"github.com/katedegree/spark/internal/infrastructure/custom"
 )
 
 //go:generate go build -o ../../seed .

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/katedegree/spark/internal/env"
+	"github.com/katedegree/spark/internal/infrastructure/env"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
