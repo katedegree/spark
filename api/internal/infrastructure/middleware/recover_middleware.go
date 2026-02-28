@@ -4,10 +4,11 @@ import (
 	"net/http"
 
 	"github.com/katedegree/spark/internal/infrastructure/custom"
+	"github.com/labstack/echo/v4"
 )
 
-func Recover(next custom.HandlerFunc) custom.HandlerFunc {
-	return func(cc *custom.Context) error {
+func recoverMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
 		defer func() {
 			if r := recover(); r != nil {
 				// custom.Panicの場合は何もしない（レスポンス送信済み）
@@ -16,10 +17,10 @@ func Recover(next custom.HandlerFunc) custom.HandlerFunc {
 				}
 
 				// その他のpanicは500エラー
-				cc.Logger().Error("panic: ", r)
-				cc.NoContent(http.StatusInternalServerError)
+				c.Logger().Error("panic: ", r)
+				c.NoContent(http.StatusInternalServerError)
 			}
 		}()
-		return next(cc)
+		return next(c)
 	}
 }

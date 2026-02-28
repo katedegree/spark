@@ -1,22 +1,16 @@
 package seeder
 
-import (
-	"fmt"
+// func Seed(db *custom.Gorm, seederName string) error {
+// 	seederFunc, exists := Seeders[seederName]
+// 	if !exists {
+// 		return fmt.Errorf("seeder not found: %s", seederName)
+// 	}
 
-	"github.com/katedegree/spark/internal/infrastructure/custom"
-)
+// 	return seederFunc(db)
+// }
 
-func Seed(db *custom.Gorm, seederName string) error {
-	seederFunc, exists := Seeders[seederName]
-	if !exists {
-		return fmt.Errorf("seeder not found: %s", seederName)
-	}
+// func Register(name string, fn func(db *custom.Gorm) error) {
+// 	Seeders[name] = fn
+// }
 
-	return seederFunc(db)
-}
-
-func Register(name string, fn func(db *custom.Gorm) error) {
-	Seeders[name] = fn
-}
-
-var Seeders = map[string]func(db *custom.Gorm) error{}
+// var Seeders = map[string]func(db *custom.Gorm) error{}

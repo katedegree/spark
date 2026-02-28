@@ -1,4 +1,4 @@
-package custom
+package infrastructure
 
 import (
 	"fmt"
@@ -7,16 +7,11 @@ import (
 	"github.com/sashabaranov/go-openai"
 )
 
-// custom.AI
-type AI struct {
-	*openai.Client
-}
-
-func NewAI() (*AI, error) {
+func NewAI() (*openai.Client, error) {
 	apiKey := env.OpenAIAPIKey()
 	if apiKey == "" {
 		return nil, fmt.Errorf("OpenAI API key is not set")
 	}
 
-	return &AI{Client: openai.NewClient(apiKey)}, nil
+	return openai.NewClient(apiKey), nil
 }

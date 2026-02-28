@@ -1,4 +1,4 @@
-package custom
+package infrastructure
 
 import (
 	"fmt"
@@ -10,13 +10,7 @@ import (
 	"gorm.io/gorm/logger"
 )
 
-// cunstom.Gorm
-type Gorm struct {
-	*gorm.DB
-	DSN string
-}
-
-func NewGorm() (*Gorm, error) {
+func NewDB() (*gorm.DB, error) {
 	dsn, err := newDsn()
 	if err != nil {
 		return nil, err
@@ -43,18 +37,7 @@ func NewGorm() (*Gorm, error) {
 		return nil, fmt.Errorf("failed to ping database: %w", err)
 	}
 
-	return &Gorm{
-		DB:  db,
-		DSN: dsn,
-	}, nil
-}
-
-func (o *Gorm) Close() error {
-	sqlDB, err := o.DB.DB()
-	if err != nil {
-		return fmt.Errorf("failed to get sql.DB: %w", err)
-	}
-	return sqlDB.Close()
+	return db, nil
 }
 
 func newDsn() (string, error) {

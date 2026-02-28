@@ -7,32 +7,19 @@ import (
 	"strings"
 
 	"github.com/go-playground/validator/v10"
+	"github.com/katedegree/spark/internal/domain/entity"
 	"github.com/labstack/echo/v4"
 )
 
 // custom.Context
 type Context struct {
 	echo.Context
-	Deps
+	Auth *entity.User
 }
 
-type validateRessponse struct {
+type validateResponse struct {
 	Status      string            `json:"status"`
 	FieldErrors map[string]string `json:"fieldErrors"`
-}
-
-func newContext(c echo.Context, deps Deps) *Context {
-	if err := deps.ValidateDeps(); err != nil {
-		panic(err)
-	}
-	cc, ok := c.(*Context)
-	if !ok {
-		cc = &Context{
-			Context: c,
-			Deps:    deps,
-		}
-	}
-	return cc
 }
 
 func (cc *Context) BindValidate(i interface{}, rules map[string]map[string]string) {
@@ -82,7 +69,7 @@ func (cc *Context) BindValidate(i interface{}, rules map[string]map[string]strin
 		fieldErrors[jsonKey] = fmt.Sprintf("Field validation for '%s' failed on the '%s' tag", jsonKey, tag)
 	}
 
-	cc.JSON(http.StatusUnprocessableEntity, validateRessponse{
+	cc.JSON(http.StatusUnprocessableEntity, validateResponse{
 		Status:      "validation",
 		FieldErrors: fieldErrors,
 	})
