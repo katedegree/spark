@@ -23,6 +23,7 @@ func main() {
 		// ミドルウェアの登録
 		e.Use(m.CORS)
 		e.Use(m.Recover)
+		e.Use(m.Context)
 
 		router.V1(e.Group("/v1"), m)
 
