@@ -3,6 +3,7 @@ package repository
 import (
 	"github.com/katedegree/spark/internal/domain/entity"
 	domain "github.com/katedegree/spark/internal/domain/repository"
+	"github.com/katedegree/spark/internal/infrastructure/model"
 	"gorm.io/gorm"
 )
 
@@ -15,10 +16,10 @@ func NewUserRepository(db *gorm.DB) domain.UserRepository {
 }
 
 func (r *userRepository) FindByEmail(email string) (*entity.User, error) {
-	var user entity.User
-	err := r.db.Where("email = ?", email).First(&user).Error
+	var m model.User
+	err := r.db.Where("email = ?", email).First(&m).Error
 	if err != nil {
 		return nil, err
 	}
-	return &user, nil
+	return m.ToEntity(), nil
 }
