@@ -7,20 +7,21 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func recoverMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
-	return func(c echo.Context) error {
-		defer func() {
-			if r := recover(); r != nil {
-				// custom.Panicの場合は何もしない（レスポンス送信済み）
-				if _, ok := r.(custom.Panic); ok {
-					return
-				}
+type RecoverMiddleware func(next echo.HandlerFunc) echo.HandlerFunc
 
-				// その他のpanicは500エラー
-				c.Logger().Error("panic: ", r)
-				c.NoContent(http.StatusInternalServerError)
-			}
-		}()
-		return next(c)
+func NewRecoverMiddleware() RecoverMiddleware {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			defer func() {
+				if r := recover(); r != nil {
+					if _, ok := r.(custom.Panic); ok {
+						return
+					}
+					c.Logger().Error("panic: ", r)
+					c.NoContent(http.StatusInternalServerError)
+				}
+			}()
+			return next(c)
+		}
 	}
 }

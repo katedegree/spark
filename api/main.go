@@ -6,7 +6,6 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/katedegree/spark/internal/infrastructure"
 	"github.com/katedegree/spark/internal/infrastructure/custom"
-	"github.com/katedegree/spark/internal/infrastructure/middleware"
 	"github.com/katedegree/spark/internal/infrastructure/router"
 	"github.com/labstack/echo/v4"
 )
@@ -16,16 +15,16 @@ func main() {
 
 	c := infrastructure.NewContainer()
 
-	if err := c.Invoke(func(m middleware.Middleware) {
+	if err := c.Invoke(func() {
 		e := echo.New()
 		e.Validator = custom.NewValidator()
 
 		// ミドルウェアの登録
-		e.Use(m.CORS)
-		e.Use(m.Recover)
-		e.Use(m.Context)
+		// e.Use(m.CORS)
+		// e.Use(m.Recover)
+		// e.Use(m.Context)
 
-		router.V1(e.Group("/v1"), m)
+		router.V1(e.Group("/v1"))
 
 		e.Logger.Fatal(e.Start(":8080"))
 	}); err != nil {

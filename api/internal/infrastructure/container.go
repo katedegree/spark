@@ -18,8 +18,16 @@ func NewContainer() *dig.Container {
 	// Repository
 	c.Provide(repository.NewUserRepository)
 
+	// UseCase
+
+	// Handler
+
 	// Middleware
-	c.Provide(middleware.NewMiddleware)
+	c.Provide(middleware.NewAuthMiddleware)
+	c.Provide(middleware.NewContextMiddleware)
+	c.Provide(middleware.NewCORSMiddleware)
+	c.Provide(middleware.NewOptionalAuthMiddleware)
+	c.Provide(middleware.NewRecoverMiddleware)
 
 	return c
 }

@@ -3,14 +3,16 @@ package middleware
 import (
 	"strings"
 
-	"github.com/katedegree/spark/internal/domain/repository"
+	domain "github.com/katedegree/spark/internal/domain/repository"
 	"github.com/katedegree/spark/internal/infrastructure/custom"
 	"github.com/katedegree/spark/pkg/jwt"
 	"github.com/labstack/echo/v4"
 )
 
+type AuthMiddleware func(next echo.HandlerFunc) echo.HandlerFunc
+
 // 認証ミドルウェア
-func authMiddleware(userRepo repository.UserRepository) echo.MiddlewareFunc {
+func NewAuthMiddleware(userRepo domain.UserRepository) AuthMiddleware {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			cc := c.(*custom.Context)
