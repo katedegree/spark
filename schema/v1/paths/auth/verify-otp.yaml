@@ -1,6 +1,6 @@
 post:
-  summary: ログイン
-  operationId: authLogin
+  summary: OTP検証
+  operationId: authVerifyOtp
   tags:
     - 認証
   requestBody:
@@ -9,28 +9,16 @@ post:
       application/json:
         schema:
           type: object
-          required: [email, password]
+          required: [email, otp]
           properties:
             email:
               type: string
               format: email
-            password:
+            otp:
               type: string
-              format: password
+              example: "012345"
   responses:
-    "200":
-      content:
-        application/json:
-          schema:
-            type: object
-            required: [accessToken, refreshToken]
-            properties:
-              accessToken:
-                type: string
-                example: "xxxxxxxx.xxxxxxxx.xxxxxxxx"
-              refreshToken:
-                type: string
-                example: "xxxxxxxx.xxxxxxxx.xxxxxxxx"
+    "204": {}
     "400":
       content:
         application/json:

@@ -1,0 +1,12 @@
+type: object
+required:
+  - type
+  - fieldErrors
+properties:
+  type:
+    type: string
+    enum: [validation]
+  fieldErrors:
+    type: object
+    additionalProperties:
+      type: string

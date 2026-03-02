@@ -1,6 +1,6 @@
 post:
-  summary: ログイン
-  operationId: authLogin
+  summary: 新規登録
+  operationId: authRegister
   tags:
     - 認証
   requestBody:
@@ -9,8 +9,10 @@ post:
       application/json:
         schema:
           type: object
-          required: [email, password]
+          required: [name, email, password]
           properties:
+            name:
+              type: string
             email:
               type: string
               format: email

@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "scripts": {
+    "test-v1": "spectral lint v1/openapi.yaml --ruleset v1/.spectral.js"
+  }
+}

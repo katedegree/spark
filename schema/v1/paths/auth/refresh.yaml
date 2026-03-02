@@ -1,8 +1,8 @@
 post:
-  summary: refresh
+  summary: トークン更新
   operationId: authRefresh
   tags:
-    - auth
+    - 認証
   parameters:
     - in: header
       name: Authorization
