@@ -14,10 +14,9 @@ services:
     ports:
       - 3000:3000
   schema:
-    image: redocly/redoc
+    build: ./schema/
     volumes:
-      - ./schema:/usr/share/nginx/html/spec
+      - ./schema:/spec
     ports:
-      - 8081:80
-    environment:
-      SPEC_URL: /spec/openapi.yaml
+      - 8081:4000
+      - 8082:4001
