@@ -1,0 +1,41 @@
+post:
+  summary: OTP送信
+  operationId: authSendOtp
+  tags:
+    - 認証
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required: [email]
+          properties:
+            email:
+              type: string
+              format: email
+              x-oapi-codegen-extra-tags:
+                validate: "required,email"
+  responses:
+    "204": {}
+    "400":
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/error.yaml"
+    "408":
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/error.yaml"
+    "422":
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/validation.yaml"
+    "429":
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/error.yaml"
+    "500": {}

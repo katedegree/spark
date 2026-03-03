@@ -1,0 +1,58 @@
+post:
+  summary: ログイン
+  operationId: authLogin
+  tags:
+    - 認証
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required: [email, password]
+          properties:
+            email:
+              type: string
+              format: email
+              x-oapi-codegen-extra-tags:
+                validate: "required,email"
+            password:
+              type: string
+              format: password
+              x-oapi-codegen-extra-tags:
+                validate: "required"
+  responses:
+    "200":
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [accessToken, refreshToken]
+            properties:
+              accessToken:
+                type: string
+                example: "xxxxxxxx.xxxxxxxx.xxxxxxxx"
+              refreshToken:
+                type: string
+                example: "xxxxxxxx.xxxxxxxx.xxxxxxxx"
+    "400":
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/error.yaml"
+    "408":
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/error.yaml"
+    "422":
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/validation.yaml"
+    "429":
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/error.yaml"
+    "500": {}

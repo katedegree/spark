@@ -3,11 +3,20 @@ services:
     build: ./api/
     volumes:
       - ./api:/api
+      - ./schema:/schema
     ports:
       - 8080:8080
   web:
     build: ./web/
     volumes:
       - ./web:/web
+      - ./schema:/schema
     ports:
       - 3000:3000
+  schema:
+    build: ./schema/
+    volumes:
+      - ./schema:/spec
+    ports:
+      - 8081:4000
+      - 8082:4001

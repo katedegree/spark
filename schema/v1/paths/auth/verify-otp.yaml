@@ -1,0 +1,46 @@
+post:
+  summary: OTP検証
+  operationId: authVerifyOtp
+  tags:
+    - 認証
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required: [email, otp]
+          properties:
+            email:
+              type: string
+              format: email
+              x-oapi-codegen-extra-tags:
+                validate: "required,email"
+            otp:
+              type: string
+              example: "012345"
+              x-oapi-codegen-extra-tags:
+                validate: "required"
+  responses:
+    "204": {}
+    "400":
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/error.yaml"
+    "408":
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/error.yaml"
+    "422":
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/validation.yaml"
+    "429":
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/error.yaml"
+    "500": {}

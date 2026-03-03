@@ -1,0 +1,42 @@
+openapi: 3.0.4
+info:
+  title: Spark API V1
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/v1
+paths:
+  /auth/login:
+    $ref: "./paths/auth/login.yaml"
+  /auth/refresh:
+    $ref: "./paths/auth/refresh.yaml"
+  /auth/register:
+    $ref: "./paths/auth/register.yaml"
+  /auth/send-otp:
+    $ref: "./paths/auth/send-otp.yaml"
+  /auth/verify-otp:
+    $ref: "./paths/auth/verify-otp.yaml"
+  /__types:
+    get:
+      operationId: types
+      summary: 型生成用（実装不要）
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "422":
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationResponse"
+components:
+  schemas:
+    ErrorResponse:
+      $ref: "./schemas/error.yaml"
+    ValidationResponse:
+      $ref: "./schemas/validation.yaml"

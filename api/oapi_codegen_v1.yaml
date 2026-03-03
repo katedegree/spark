@@ -1,0 +1,5 @@
+package: v1
+generate:
+  strict-server: true
+  models: true
+output: internal/infrastructure/handler/v1/v1.gen.go

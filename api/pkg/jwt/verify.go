@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/katedegree/spark/internal/env"
+	"github.com/katedegree/spark/internal/infrastructure/env"
 )
 
 var (
