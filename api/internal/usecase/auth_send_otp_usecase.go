@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"math/big"
 
-	domain "github.com/katedegree/spark/internal/domain/repository"
+	"github.com/katedegree/spark/internal/domain/repository"
 	"github.com/katedegree/spark/pkg/hash"
 	"gorm.io/gorm"
 )
@@ -15,12 +15,12 @@ import (
 var ErrUserNotFound = errors.New("user not found")
 
 type AuthSendOtpUsecase struct {
-	userRepo  domain.UserRepository
-	otpRepo   domain.OtpRepository
-	emailRepo domain.EmailRepository
+	userRepo  repository.UserRepository
+	otpRepo   repository.OtpRepository
+	emailRepo repository.EmailRepository
 }
 
-func NewAuthSendOtpUsecase(userRepo domain.UserRepository, otpRepo domain.OtpRepository, emailRepo domain.EmailRepository) AuthSendOtpUsecase {
+func NewAuthSendOtpUsecase(userRepo repository.UserRepository, otpRepo repository.OtpRepository, emailRepo repository.EmailRepository) AuthSendOtpUsecase {
 	return AuthSendOtpUsecase{userRepo: userRepo, otpRepo: otpRepo, emailRepo: emailRepo}
 }
 

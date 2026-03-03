@@ -1,6 +1,5 @@
 package main
 
-//go:generate go build -o ../../seed .
 // func main() {
 // 	err := godotenv.Load(".env")
 // 	if err != nil {

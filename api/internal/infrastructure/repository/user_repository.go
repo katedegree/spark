@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/katedegree/spark/internal/domain/entity"
-	domain "github.com/katedegree/spark/internal/domain/repository"
+	"github.com/katedegree/spark/internal/domain/repository"
 	"github.com/katedegree/spark/internal/infrastructure/model"
 	"gorm.io/gorm"
 )
@@ -13,7 +13,7 @@ type userRepository struct {
 	db *gorm.DB
 }
 
-func NewUserRepository(db *gorm.DB) domain.UserRepository {
+func NewUserRepository(db *gorm.DB) repository.UserRepository {
 	return &userRepository{db: db}
 }
 

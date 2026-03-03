@@ -4,24 +4,23 @@ import (
 	"context"
 	"fmt"
 
-	domain "github.com/katedegree/spark/internal/domain/repository"
-
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/ses"
 	"github.com/aws/aws-sdk-go-v2/service/ses/types"
+	"github.com/katedegree/spark/internal/domain/repository"
 )
 
-type EmailRepository struct {
+type emailRepository struct {
 	mailer *ses.Client
 }
 
-func NewEmailRepository(mailer *ses.Client) domain.EmailRepository {
-	return &EmailRepository{
+func NewEmailRepository(mailer *ses.Client) repository.EmailRepository {
+	return &emailRepository{
 		mailer: mailer,
 	}
 }
 
-func (r *EmailRepository) SendOTP(ctx context.Context, to, otp string) error {
+func (r *emailRepository) SendOTP(ctx context.Context, to, otp string) error {
 	subject := "認証コード"
 	body := fmt.Sprintf("認証コードは %s です。", otp)
 	charset := "UTF-8"

@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/katedegree/spark/internal/domain/entity"
-	domain "github.com/katedegree/spark/internal/domain/repository"
+	"github.com/katedegree/spark/internal/domain/repository"
 	"gorm.io/gorm"
 )
 
@@ -13,7 +13,7 @@ type otpRepository struct {
 	db *gorm.DB
 }
 
-func NewOtpRepository(db *gorm.DB) domain.OtpRepository {
+func NewOtpRepository(db *gorm.DB) repository.OtpRepository {
 	return &otpRepository{db: db}
 }
 
