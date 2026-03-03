@@ -1,7 +1,11 @@
 package repository
 
-import "github.com/katedegree/spark/internal/domain/entity"
+import (
+	"context"
+
+	"github.com/katedegree/spark/internal/domain/entity"
+)
 
 type UserRepository interface {
-	FindByEmail(email string) (*entity.User, error)
+	FindByEmail(ctx context.Context, email string) (*entity.User, error)
 }

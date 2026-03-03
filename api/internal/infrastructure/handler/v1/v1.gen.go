@@ -7,11 +7,58 @@ import (
 	openapi_types "github.com/oapi-codegen/runtime/types"
 )
 
+// Defines values for ErrorResponseType.
+const (
+	Error ErrorResponseType = "error"
+)
+
+// Valid indicates whether the value is a known member of the ErrorResponseType enum.
+func (e ErrorResponseType) Valid() bool {
+	switch e {
+	case Error:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ValidationResponseType.
+const (
+	Validation ValidationResponseType = "validation"
+)
+
+// Valid indicates whether the value is a known member of the ValidationResponseType enum.
+func (e ValidationResponseType) Valid() bool {
+	switch e {
+	case Validation:
+		return true
+	default:
+		return false
+	}
+}
+
+// ErrorResponse defines model for ErrorResponse.
+type ErrorResponse struct {
+	Message string            `json:"message"`
+	Type    ErrorResponseType `json:"type"`
+}
+
+// ErrorResponseType defines model for ErrorResponse.Type.
+type ErrorResponseType string
+
+// ValidationResponse defines model for ValidationResponse.
+type ValidationResponse struct {
+	FieldErrors map[string]string      `json:"fieldErrors"`
+	Type        ValidationResponseType `json:"type"`
+}
+
+// ValidationResponseType defines model for ValidationResponse.Type.
+type ValidationResponseType string
+
 // AuthLoginJSONBody defines parameters for AuthLogin.
 type AuthLoginJSONBody struct {
-	Email    openapi_types.Email `json:"email"`
-	Name     string              `json:"name"`
-	Password string              `json:"password"`
+	Email    openapi_types.Email `json:"email" validate:"required,email"`
+	Password string              `json:"password" validate:"required"`
 }
 
 // AuthRefreshParams defines parameters for AuthRefresh.
@@ -19,22 +66,32 @@ type AuthRefreshParams struct {
 	Authorization string `json:"Authorization"`
 }
 
-// AuthRegisterSendOtpJSONBody defines parameters for AuthRegisterSendOtp.
-type AuthRegisterSendOtpJSONBody struct {
-	Email    openapi_types.Email `json:"email"`
-	Password string              `json:"password"`
+// AuthRegisterJSONBody defines parameters for AuthRegister.
+type AuthRegisterJSONBody struct {
+	Email    openapi_types.Email `json:"email" validate:"required,email"`
+	Name     string              `json:"name" validate:"required"`
+	Password string              `json:"password" validate:"required"`
 }
 
-// AuthRegisterVerifyOtpJSONBody defines parameters for AuthRegisterVerifyOtp.
-type AuthRegisterVerifyOtpJSONBody struct {
-	Otp string `json:"otp"`
+// AuthSendOtpJSONBody defines parameters for AuthSendOtp.
+type AuthSendOtpJSONBody struct {
+	Email openapi_types.Email `json:"email" validate:"required,email"`
+}
+
+// AuthVerifyOtpJSONBody defines parameters for AuthVerifyOtp.
+type AuthVerifyOtpJSONBody struct {
+	Email openapi_types.Email `json:"email" validate:"required,email"`
+	Otp   string              `json:"otp" validate:"required"`
 }
 
 // AuthLoginJSONRequestBody defines body for AuthLogin for application/json ContentType.
 type AuthLoginJSONRequestBody AuthLoginJSONBody
 
-// AuthRegisterSendOtpJSONRequestBody defines body for AuthRegisterSendOtp for application/json ContentType.
-type AuthRegisterSendOtpJSONRequestBody AuthRegisterSendOtpJSONBody
+// AuthRegisterJSONRequestBody defines body for AuthRegister for application/json ContentType.
+type AuthRegisterJSONRequestBody AuthRegisterJSONBody
 
-// AuthRegisterVerifyOtpJSONRequestBody defines body for AuthRegisterVerifyOtp for application/json ContentType.
-type AuthRegisterVerifyOtpJSONRequestBody AuthRegisterVerifyOtpJSONBody
+// AuthSendOtpJSONRequestBody defines body for AuthSendOtp for application/json ContentType.
+type AuthSendOtpJSONRequestBody AuthSendOtpJSONBody
+
+// AuthVerifyOtpJSONRequestBody defines body for AuthVerifyOtp for application/json ContentType.
+type AuthVerifyOtpJSONRequestBody AuthVerifyOtpJSONBody

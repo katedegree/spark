@@ -14,6 +14,8 @@ post:
             email:
               type: string
               format: email
+              x-oapi-codegen-extra-tags:
+                validate: "required,email"
   responses:
     "204": {}
     "400":

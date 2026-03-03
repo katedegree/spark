@@ -30,7 +30,7 @@ func NewOptionalAuthMiddleware(userRepo domain.UserRepository) OptionalAuthMiddl
 				return next(cc)
 			}
 
-			user, err := userRepo.FindByEmail(claims.Email)
+			user, err := userRepo.FindByEmail(cc.Request().Context(), claims.Email)
 			if err != nil || user.ID != claims.AuthID {
 				return next(cc)
 			}

@@ -31,7 +31,7 @@ func NewAuthMiddleware(userRepo domain.UserRepository) AuthMiddleware {
 				return cc.JSON(401, map[string]string{"error": "無効なトークン形式です"})
 			}
 
-			user, err := userRepo.FindByEmail(claims.Email)
+			user, err := userRepo.FindByEmail(cc.Request().Context(), claims.Email)
 			if err != nil || user.ID != claims.AuthID {
 				return cc.JSON(401, map[string]string{"error": "無効なトークン形式です"})
 			}

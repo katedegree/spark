@@ -14,9 +14,13 @@ post:
             email:
               type: string
               format: email
+              x-oapi-codegen-extra-tags:
+                validate: "required,email"
             otp:
               type: string
               example: "012345"
+              x-oapi-codegen-extra-tags:
+                validate: "required"
   responses:
     "204": {}
     "400":

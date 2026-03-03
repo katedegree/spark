@@ -13,12 +13,18 @@ post:
           properties:
             name:
               type: string
+              x-oapi-codegen-extra-tags:
+                validate: "required"
             email:
               type: string
               format: email
+              x-oapi-codegen-extra-tags:
+                validate: "required,email"
             password:
               type: string
               format: password
+              x-oapi-codegen-extra-tags:
+                validate: "required"
   responses:
     "200":
       content:
