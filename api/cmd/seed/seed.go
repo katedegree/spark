@@ -1,108 +1,120 @@
 package main
 
-// func main() {
-// 	err := godotenv.Load(".env")
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
+import (
+	"fmt"
+	"log"
+	"os"
+	"path/filepath"
+	"strings"
+	"text/template"
 
-// 	if len(os.Args) != 3 {
-// 		FatalLog()
-// 	}
+	"github.com/joho/godotenv"
+	"github.com/katedegree/spark/internal/infrastructure/custom"
+	"github.com/katedegree/spark/database/seeder"
+)
 
-// 	db, err := custom.NewGorm()
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-// 	defer db.Close()
+func main() {
+	log.Println("テスト")
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal(err)
+	}
 
-// 	command := os.Args[1]
-// 	filename := os.Args[2]
+	if len(os.Args) != 3 {
+		FatalLog()
+	}
 
-// 	switch command {
-// 	case "create":
-// 		if err := createSeederFile(filename); err != nil {
-// 			log.Fatal(err)
-// 		}
-// 	case "run":
-// 		if err := seeder.Seed(db, filename); err != nil {
-// 			log.Fatal(err)
-// 		}
-// 	default:
-// 		FatalLog()
-// 	}
-// }
+	orm, _ := custom.NewGorm()
+	sqlDB, _ := orm.DB()
+	defer sqlDB.Close()
 
-// func createSeederFile(filename string) error {
-// 	dir := "database/seeder"
+	command := os.Args[1]
+	filename := os.Args[2]
 
-// 	// ファイル名から関数名を生成（スネークケース → キャメルケース）
-// 	funcName := snakeToCamel(filename)
+	switch command {
+	case "create":
+		if err := createSeederFile(filename); err != nil {
+			log.Fatal(err)
+		}
+	case "run":
+		if err := seeder.Seed(orm, filename); err != nil {
+			log.Fatal(err)
+		}
+	default:
+		FatalLog()
+	}
+}
 
-// 	// ファイルパスを生成
-// 	filepath := filepath.Join(dir, filename+".go")
+func createSeederFile(filename string) error {
+	dir := "database/seeder"
 
-// 	// ファイルが既に存在する場合はエラー
-// 	if _, err := os.Stat(filepath); err == nil {
-// 		return fmt.Errorf("ファイル %s は既に存在します", filepath)
-// 	}
+	// ファイル名から関数名を生成（スネークケース → キャメルケース）
+	funcName := snakeToCamel(filename)
 
-// 	// テンプレートを定義
-// 	tmpl := `package seeder
+	// ファイルパスを生成
+	filepath := filepath.Join(dir, filename+".go")
 
-// import (
-// 	"github.com/vantan-project/flare/internal/database"
-// )
+	// ファイルが既に存在する場合はエラー
+	if _, err := os.Stat(filepath); err == nil {
+		return fmt.Errorf("ファイル %s は既に存在します", filepath)
+	}
 
-// func {{.FuncName}}(orm *database.ORM) error {
-// 	return nil
-// }
+	// テンプレートを定義
+	tmpl := `package seeder
 
-// func init() {
-// 	Register("{{.Filename}}", {{.FuncName}})
-// }
-// `
+import (
+	"gorm.io/gorm"
+)
 
-// 	// テンプレートをパース
-// 	t, err := template.New("seeder").Parse(tmpl)
-// 	if err != nil {
-// 		return fmt.Errorf("テンプレートのパースに失敗しました: %w", err)
-// 	}
+func {{.FuncName}}(orm *gorm.DB) error {
+	return nil
+}
 
-// 	// ファイルを作成
-// 	file, err := os.Create(filepath)
-// 	if err != nil {
-// 		return fmt.Errorf("ファイルの作成に失敗しました: %w", err)
-// 	}
-// 	defer file.Close()
+func init() {
+	Register("{{.Filename}}", {{.FuncName}})
+}
+`
 
-// 	// テンプレートを実行してファイルに書き込み
-// 	data := map[string]string{
-// 		"FuncName": funcName,
-// 		"Filename": filename,
-// 	}
-// 	if err := t.Execute(file, data); err != nil {
-// 		return fmt.Errorf("ファイルへの書き込みに失敗しました: %w", err)
-// 	}
+	// テンプレートをパース
+	t, err := template.New("seeder").Parse(tmpl)
+	if err != nil {
+		return fmt.Errorf("テンプレートのパースに失敗しました: %w", err)
+	}
 
-// 	fmt.Printf("シーダーファイルを作成しました: %s\n", filepath)
-// 	return nil
-// }
+	// ファイルを作成
+	file, err := os.Create(filepath)
+	if err != nil {
+		return fmt.Errorf("ファイルの作成に失敗しました: %w", err)
+	}
+	defer file.Close()
 
-// func snakeToCamel(s string) string {
-// 	parts := strings.Split(s, "_")
-// 	for i, part := range parts {
-// 		if len(part) > 0 {
-// 			parts[i] = strings.ToUpper(part[:1]) + part[1:]
-// 		}
-// 	}
-// 	return strings.Join(parts, "")
-// }
+	// テンプレートを実行してファイルに書き込み
+	data := map[string]string{
+		"FuncName": funcName,
+		"Filename": filename,
+	}
+	if err := t.Execute(file, data); err != nil {
+		return fmt.Errorf("ファイルへの書き込みに失敗しました: %w", err)
+	}
 
-// func FatalLog() {
-// 	log.Fatal(`無効なコマンドです。以下のいずれかのコマンドを指定してください:
+	fmt.Printf("シーダーファイルを作成しました: %s\n", filepath)
+	return nil
+}
 
-//   - make seed create [file_name]
-//   - make seed run [file_name]
-// 	`)
-// }
+func snakeToCamel(s string) string {
+	parts := strings.Split(s, "_")
+	for i, part := range parts {
+		if len(part) > 0 {
+			parts[i] = strings.ToUpper(part[:1]) + part[1:]
+		}
+	}
+	return strings.Join(parts, "")
+}
+
+func FatalLog() {
+	log.Fatal(`無効なコマンドです。以下のいずれかのコマンドを指定してください:
+
+  - make seed create [file_name]
+  - make seed run [file_name]
+	`)
+}
