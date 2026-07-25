@@ -1,3 +1,4 @@
+import { GradientPageHeader } from "@/components/ui/gradient-page-header";
 import { RecommendedCard } from "@/features/home/components/recommended-card";
 import { SelectedTagList } from "@/features/search/components/selected-tag-list";
 import { TagSearchBox } from "@/features/search/components/tag-search-box";
@@ -31,14 +32,9 @@ export default async function SearchPage({
 					{/* SP: グラデ帯は検索入力の縦中央(≈25px)で終わり、入力の下半分は
 					    白地にはみ出す(Figma: bg h156 に対し入力が 69〜119px で跨る)。
 					    帯の pb-[45px] = 見出しとの間隔 20px + 入力の上半分 25px。 */}
-					<div className="relative rounded-b-[20px] bg-brand-gradient-top px-5 pt-5 pb-[45px] text-white md:rounded-none md:bg-none md:p-0 md:pb-0 md:text-ink">
-						{/* Figma: SP はグラデの上に白 20% を重ねて淡いトーンにする(MobileHeader と同様) */}
-						<div
-							className="absolute inset-0 rounded-b-[20px] bg-white/20 md:hidden"
-							aria-hidden="true"
-						/>
-						<h1 className="relative z-10 font-bold text-2xl">探す</h1>
-					</div>
+					<GradientPageHeader className="px-5 pt-5 pb-[45px] md:p-0 md:text-ink">
+						<h1 className="font-bold text-2xl">探す</h1>
+					</GradientPageHeader>
 					<div className="-mt-[25px] relative z-10 px-5 md:mt-0 md:px-0">
 						<TagSearchBox selectedTags={selectedTags} />
 						{/* SP: チップは検索入力の直下 */}

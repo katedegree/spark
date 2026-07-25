@@ -5,8 +5,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/utils/cn";
 
-/** 独自ヘッダを持つため共通ヘッダを出さないパス。 */
-const HIDDEN_PATHS = ["/search"];
+/** 独自ヘッダを持つため共通ヘッダを出さないパス(配下も含む)。 */
+const HIDDEN_PATHS = ["/search", "/matches"];
 
 /**
  * SP 上部のグラデヘッダ(Client、Figma 準拠)。
@@ -75,7 +75,11 @@ export function MobileHeader({
 	}, []);
 
 	// フック呼び出しの順序を保つため、非表示判定は必ず全フックの後で行う。
-	if (HIDDEN_PATHS.includes(pathname)) return null;
+	// `/matches/123` のような配下のページも隠すため前方一致で判定する。
+	const isHiddenPath = HIDDEN_PATHS.some(
+		(path) => pathname === path || pathname.startsWith(`${path}/`),
+	);
+	if (isHiddenPath) return null;
 
 	return (
 		<header

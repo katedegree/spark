@@ -59,9 +59,16 @@ function TabItem({ item, pathname }: { item: NavItem; pathname: string }) {
  * ホームバー回避: `env(safe-area-inset-bottom)` は viewport-fit=cover を
  * 設定したときのみ非 0 になる。現状 cover は未設定のためブラウザ既定の
  * inset に任せており、env() は将来 cover を導入したときの保険として残す。
+ *
+ * トーク詳細(`/matches/[roomId]`)は下端がメッセージ入力欄になるデザインのため、
+ * このバー自体を出さない。
  */
 export function BottomTabBar({ className }: { className?: string }) {
 	const pathname = usePathname();
+	const isMatchActive = pathname === "/matches";
+
+	// フック呼び出しの順序を保つため、非表示判定は必ず全フックの後で行う。
+	if (pathname.startsWith("/matches/")) return null;
 
 	return (
 		<nav
@@ -88,9 +95,10 @@ export function BottomTabBar({ className }: { className?: string }) {
 				</div>
 
 				{/* 3. MATCH 本体(前面・影なし。影は 1 が肩代わり)。 */}
-				<button
-					type="button"
+				<Link
+					href="/matches"
 					aria-label="マッチ"
+					aria-current={isMatchActive ? "page" : undefined}
 					className="absolute top-0 left-1/2 z-20 flex size-[83px] -translate-x-1/2 -translate-y-5 items-center justify-center rounded-full bg-white p-1"
 				>
 					<span
@@ -105,7 +113,7 @@ export function BottomTabBar({ className }: { className?: string }) {
 							MATCH
 						</span>
 					</span>
-				</button>
+				</Link>
 			</div>
 		</nav>
 	);
