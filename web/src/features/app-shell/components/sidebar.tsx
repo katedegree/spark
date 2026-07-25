@@ -1,5 +1,6 @@
 import { HeartHandshake, Settings } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { cn } from "@/utils/cn";
 import type { MiniProfileVM } from "../data";
 import { MiniProfile } from "./mini-profile";
@@ -51,7 +52,10 @@ export function Sidebar({
 				aria-label="メインメニュー"
 			>
 				<div className="flex flex-col gap-2">
-					<div className="flex items-center justify-center rounded-2xl bg-brand-gradient p-4 lg:justify-start">
+					<Link
+						href="/matches"
+						className="flex items-center justify-center rounded-2xl bg-brand-gradient p-4 lg:justify-start"
+					>
 						<HeartHandshake
 							className="size-8 shrink-0 text-white lg:hidden"
 							strokeWidth={1.5}
@@ -61,7 +65,7 @@ export function Sidebar({
 						<span className="sr-only font-bold text-white text-xl lg:not-sr-only">
 							マッチ一覧
 						</span>
-					</div>
+					</Link>
 					<SidebarNav />
 				</div>
 				<button
